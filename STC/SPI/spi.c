@@ -5,10 +5,14 @@
     版本:    R1.0
     日期:    20/7/8
     描述:    STC系列的硬件/软件SPI驱动程序
+	         部分配置通过unsigned char变量存储, 可能占据额外空间.
+			 若空间紧张可将其通过define替换
+			 本驱动在 STC12C5A60S2@12.0MHz 和 STC8A8K64S4A12@12.0MHz平台试验通过
     修订历史:
     <作者>   <时间>   <版本>   <描述>
     DT9025A  20/4/5    A1.0    编写完成
     DT9025A  20/7/8    R1.0    完善文档注释
+	DT9025A  20/7/9    R1.1    更改一些define为变量, 以适应STC8系列的可变端口
 ***********************************************************/
 #include "spi.h"
 
@@ -23,12 +27,14 @@
     其他说明:  无
 /**********************************************************************/
 void SPI_Init() {
+#ifdef __STC8F_H_
+    P_SW1 |= SPI_S << 1;        //SPI pin select
     SPDAT = 0;                  //initial SPI data
     SPSTAT = SPIF | WCOL;       //clear SPI status
 #ifdef MASTER
     SPCTL = SPEN | MSTR | SPI_SPEED | CPx;        //master mode
 #else
-    SPCTL = SPEN;               //slave mode
+    SPCTL = SPEN;                                 //slave mode
 #endif
 
 }

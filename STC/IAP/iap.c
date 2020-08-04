@@ -1,55 +1,67 @@
 /************************************************************
     Copyright (C), 2020, DT9025A
-    文件名:  isp.c
+    文件名:  iap.c
     作者:    DT9025A
     版本:    R1.0
-    日期:    20/7/8
-    描述:    STC12系列的片上E2PROM驱动程序
-             本驱动在 STC12C5A60S2@12.0MHz 平台试验通过
+    日期:    20/8/4
+    描述:    STC8G/H系列的片上E2PROM驱动程序
+	实验平台:
+	         [PASS] STC8G1K08A     @ 11.0592MHz
+			 [PASS] STC8H8K64S4U   @ 11.0592MHz
+			 [PASS] STC8A8K64S4A12 @ 11.0592MHz
     修订历史:
     <作者>   <时间>   <版本>   <描述>
-    DT9025A  20/1/15   A1.0    编写完成
-    DT9025A  20/7/8    R1.0    完善文档注释
+    DT9025A  20/8/4    A1.0    编写完成
+    DT9025A  20/8/4    R1.0    完善文档注释
 ***********************************************************/
 
-#include "isp.h"
+#include "iap.h"
 
 
 /***********************************************************************
-    函数名:    TRIGISP
-    描述:      触发ISP操作
+    函数名:    TRIGIAP
+    描述:      触发IAP操作
     调用:      无
     参数:      [unsigned int] addrOffset : 要进行操作的地址
                [unsigned char]       cmd : 传递的指令
     返回值:    void
     其他说明:  内部函数
 /**********************************************************************/
-void TRIGISP (unsigned int addrOffset, unsigned char cmd) {
+bit TRIGIAP (unsigned int addrOffset, unsigned char cmd) {
+	bit result;
     addrOffset += FLASH_START_ADDR;
-    ISP_ADDRH = addrOffset >> 8;
-    ISP_ADDRL = (unsigned char)addrOffset & 0xff;
+    IAP_ADDRH = addrOffset >> 8;
+    IAP_ADDRL = (unsigned char)addrOffset & 0xff;
     EA = 0;
-    ISP_CONTR = WAIT_TIME | 0x80;
-    ISP_CMD = cmd;
-    ISP_TRIG = 0x46;
-    ISP_TRIG = 0xB9;
-    ISP_ADDRH = ISP_ADDRL = ISP_TRIG = ISP_CMD = ISP_CONTR = 0;
+    IAP_CONTR = 0x80;
+#ifdef __STC8F_H_
+	IAP_CONTR |= IAP_WT;
+#else
+	IAP_TPS = WAIT_TIME;
+#endif
+    IAP_CMD = cmd;
+    IAP_TRIG = 0x5A;
+    IAP_TRIG = 0xA5;
+    IAP_ADDRH = IAP_ADDRL = IAP_TRIG = IAP_CMD = IAP_CONTR = 0;
     EA = 1;
+    result = IAP_CONTR >> 4 & 1;
+	IAP_CONTR &= 0xEF;
+	return result;
 }
 
 
 /***********************************************************************
     函数名:    ByteProgram
     描述:      编程1字节
-    调用:      TRIGISP
+    调用:      TRIGIAP
     参数:      [unsigned int] addrOffset : 要进行操作的地址
                [unsigned char]         x : 数据
     返回值:    void
     其他说明:  该地址必须先被擦除为0xFF再进行写操作
 /**********************************************************************/
-void ByteProgram (unsigned int addrOffset, unsigned char x) {
-    ISP_DATA = x;
-    TRIGISP (addrOffset, ISP_IAP_BYTE_PROGRAM);
+bit ByteProgram (unsigned int addrOffset, unsigned char x) {
+    IAP_DATA = x;
+    return TRIGIAP (addrOffset, IAP_IAP_BYTE_PROGRAM);
 }
 
 
@@ -73,14 +85,14 @@ void BufProgram (unsigned int addrOffset, unsigned int cnt, unsigned char *buf) 
 /***********************************************************************
     函数名:    ByteRead
     描述:      读取1字节
-    调用:      TRIGISP
+    调用:      TRIGIAP
     参数:      [unsigned int] addrOffset : 要进行操作的地址
     返回值:    [unsigned char] : 读取到的数据
     其他说明:  无
 /**********************************************************************/
 unsigned char ByteRead (unsigned int addrOffset) {
-    TRIGISP (addrOffset, ISP_IAP_BYTE_READ);
-    return ISP_DATA;
+    if(TRIGIAP (addrOffset, IAP_IAP_BYTE_READ));
+    return IAP_DATA;
 }
 
 
@@ -104,7 +116,7 @@ void BufRead (unsigned int addrOffset, unsigned int cnt, unsigned char *buf) {
 /***********************************************************************
     函数名:    SectorErase
     描述:      擦除扇区
-    调用:      TRIGISP
+    调用:      TRIGIAP
     参数:      [unsigned char] sectorNumber : 要进行操作的扇区号
     返回值:    void
     其他说明:  无
@@ -113,5 +125,5 @@ void SectorErase (unsigned char sectorNumber) {
     unsigned int addrOffset;
 
     addrOffset = sectorNumber << 9;
-    TRIGISP (addrOffset, ISP_IAP_SECTOR_ERASE);
+    TRIGIAP (addrOffset, IAP_IAP_SECTOR_ERASE);
 }

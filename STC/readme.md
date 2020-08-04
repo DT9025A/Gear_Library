@@ -11,14 +11,14 @@
 
 目前有的库
 
-| 库名称   | 库简介                          | 库版本 | 测试平台                                        |
-| -------- | ------------------------------- | ------ | ----------------------------------------------- |
-| 1602     | 4/8线驱动1602                   | R1.0   | STC12C5A60S2@12.0MHz<br/>STC8A8K64S4A12@12.0MHz |
-| ADC      | STC12系列的片上ADC驱动          | A1.0   | STC12C5A60S2@12.0MHz                            |
-| AT24C02  | AT24C02系列E2PROM驱动           | R1.0   | STC12C5A60S2@12.0MHz<br/>STC89C54RD+@12.0MHz    |
-| DS3231   | DS3231基础驱动                  | R1.0   | STC12C4052AD@12.0MHz                            |
-| HPDL1414 | HPDL1414驱动 (数据线占一组端口) | A1.1   | STC12C4052AD@12.0MHz                            |
-| ISP      | STC12系列的片上E2PROM驱动程序   | R1.0   | STC12C5A60S2@12.0MHz<br/>STC12C4052AD@12.0MHz   |
-| SPI      | STC系列的硬件/软件SPI驱动程序   | R1.0   | STC12C5A60S2@12.0MHz                            |
-| UID      | 从RAM读取STC系列的UID(7字节)    | R1.0   | STC12C5A60S2@12.0MHz<br/>STC89C54RD+@12.0MHz    |
-
+| 库名称   | 库简介                              | 库版本 | 测试平台                                                     |
+| -------- | ----------------------------------- | ------ | ------------------------------------------------------------ |
+| 1602     | 4/8线驱动1602(ST7032)               | R1.0   | STC12C5A60S2@12.0MHz<br/>STC8A8K64S4A12@12.0MHz              |
+| ADC      | STC12系列的片上ADC驱动              | A1.0   | STC12C5A60S2@12.0MHz                                         |
+| AT24C02  | AT24C02系列E2PROM驱动               | R1.0   | STC12C5A60S2@12.0MHz<br/>STC89C54RD+@12.0MHz                 |
+| DS3231   | DS3231基础驱动                      | R1.0   | STC12C4052AD@12.0MHz                                         |
+| HPDL1414 | HPDL1414驱动 (数据线占一组端口)     | A1.1   | STC12C4052AD@12.0MHz                                         |
+| ISP      | STC12系列的片上E2PROM驱动程序       | R1.0   | STC12C5A60S2@12.0MHz<br/>STC12C4052AD@12.0MHz                |
+| IAP      | STC8A/F/G/H系列的片上E2PROM驱动程序 | R1.0   | STC8G1K08A@11.0592MHz<br/>STC8H8K64S4U@11.0592MHz<br/>STC8A8K64S4A12@11.0592MHz |
+| SPI      | STC系列的硬件/软件SPI驱动程序       | R1.0   | STC12C5A60S2@12.0MHz                                         |
+| UID      | 从RAM读取STC系列的UID(7字节)        | R1.0   | STC12C5A60S2@12.0MHz<br/>STC89C54RD+@12.0MHz                 |
