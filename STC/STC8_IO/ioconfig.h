@@ -1,18 +1,18 @@
 /************************
- * STC8ç³»åˆ— IOé…ç½®
+ * STC8ÏµÁĞ IOÅäÖÃ
  * @Author  DT9025A
  * @Date    20/10/5
- * @License MIT
+ * @License Apache License 2.0
  * 
- * æœ¬æ–‡ä»¶åŸºäºSTC8Hçš„æ–‡æ¡£ç¼–å†™, æ ¹æ®ç›®æ ‡å¹³å°è‡ªè¡Œé€‚é…
+ * ±¾ÎÄ¼ş»ùÓÚSTC8HµÄÎÄµµ±àĞ´, ¸ù¾İÄ¿±êÆ½Ì¨×ÔĞĞÊÊÅä
  ***********************/
 #include <STC8h.h>
 
 #ifdef __STC8H_H_
-#warning é»˜è®¤å¤´æ–‡ä»¶æœªæ›´æ”¹, ç›®æ ‡å¹³å°ä¸ºSTC8H
+#warning Ä¬ÈÏÍ·ÎÄ¼şÎ´¸ü¸Ä, Ä¿±êÆ½Ì¨ÎªSTC8H
 #endif
 
-//IOå®šä¹‰
+//IO¶¨Òå
 #define PIN_0 0x01
 #define PIN_1 0x02
 #define PIN_2 0x04
@@ -22,54 +22,54 @@
 #define PIN_6 0x40
 #define PIN_7 0x80
 
-//æ¨¡å¼å®šä¹‰
+//Ä£Ê½¶¨Òå
 #define PIN_MODE_STANDARD 0, 0
 #define PIN_MODE_PUSHPULL 1, 0
 #define PIN_MODE_HIRGRESIN 0, 0
 #define PIN_MODE_OPENDRAIN 0, 0
 
-//PULLUPçŠ¶æ€
+//PULLUP×´Ì¬
 #define PIN_PULLUP_ENABLE 1
 #define PIN_PULLUP_DISABLE 0
 
-//NCSçŠ¶æ€
+//NCS×´Ì¬
 #define PIN_NCS_ENABLE 0
 #define PIN_NCS_DISABLE 1
 
-//SRçŠ¶æ€
+//SR×´Ì¬
 #define PIN_SWITCHRATE_HIGH 0
 #define PIN_SWITCHRATE_LOW 1
 
-//DRçŠ¶æ€
+//DR×´Ì¬
 #define PIN_DRAINRATE_HIGH 0
 #define PIN_DRAINRATE_LOW 1
 
-//IEçŠ¶æ€
+//IE×´Ì¬
 #define PIN_DIGITALSIGINPUTE_DISABLE 0
 #define PIN_DIGITALSIGINPUTE_ENABLE  1
 
-//IOæ¨¡å¼
+//IOÄ£Ê½
 #define PIN_MODE_CONFIG(port, pin, mode) _PINMODE_CONFIG(port, pin, mode)
 #define _PINMODE_CONFIG(port, pin, stat0, stat1)      \
     stat0 ? (port##M0 |= pin) : (port##M0 &= (~pin)); \
     stat1 ? (port##M1 |= pin) : (port##M1 &= (~pin));
 
-//ä¸Šæ‹‰ç”µé˜»è®¾ç½®
+//ÉÏÀ­µç×èÉèÖÃ
 #define PIN_PULLUP_CONFIG(port, pin, stat) \
     stat ? (port##PU |= pin) : (port##PU &= (~pin));
 
-//æ–½å¯†ç‰¹è§¦å‘å™¨è®¾ç½®
+//Ê©ÃÜÌØ´¥·¢Æ÷ÉèÖÃ
 #define PIN_NCS_CONFIG(port, pin, stat) \
     stat ? (port##NCS |= pin) : (port##NCS &= (~pin));
 
-//ç«¯å£è½¬æ¢é€Ÿç‡è®¾ç½®
+//¶Ë¿Ú×ª»»ËÙÂÊÉèÖÃ
 #define PIN_SWITCHRATE_CONFIG(port, pin, stat) \
     stat ? (port##SR |= pin) : (port##SR &= (~pin));
 
-//ç«¯å£é©±åŠ¨ç”µæµè®¾ç½®
+//¶Ë¿ÚÇı¶¯µçÁ÷ÉèÖÃ
 #define PIN_DRAINRATE_CONFIG(port, pin, stat) \
     stat ? (port##DR |= pin) : (port##DR &= (~pin));
 
-//æ•°å­—ä¿¡å·ä½¿èƒ½è®¾ç½®
+//Êı×ÖĞÅºÅÊ¹ÄÜÉèÖÃ
 #define PIN_DIGITALSIGINPUTENABLE_CONFIG(port, pin, stat) \
     stat ? (port##IE |= pin) : (port##IE &= (~pin));
